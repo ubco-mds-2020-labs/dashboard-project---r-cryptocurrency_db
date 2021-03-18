@@ -491,17 +491,18 @@ app$callback(
 
 
 app$callback(
-    list(output('crypto1', 'children'), #dccGraphID
+    list(output('crypto1', 'children')), #dccGraphID
     list(input('moderncurrency', 'value'),
          input('crypto', 'value'),
          input('moderncurrency1', 'value')), #dccDropdownID
-    function(x=moderncurrency1, from = "moderncurrency", to = "crypto"){
+    function(moderncurrency1, moderncurrency, crypto){
         values <- c(1.0, 0.84, 0.72, 109.04, 72.53, 1.24, 1.34, 0.000017, 0.0048253, 0.0020147, 0.1984127, 0.0006391, 0.7633588, 00054969, 0.0049655, 1.333333, 0.0267165, 0.0252717, 0.1776199, 0.157779, 2.1276596, 1.0869565, 0.102146 ) #Moderen currency (to currency)
         names(values) <- c("USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD", "bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", "monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves") #Moderen currency name (to currency name)
-        v1 = values[to]/values[from]/x
+        v1 = (values[crypto]/values[moderncurrency])/moderncurrency1
         return(v1)
 }
 )
+
 
 app$callback(
     list(output('Open','children')),
