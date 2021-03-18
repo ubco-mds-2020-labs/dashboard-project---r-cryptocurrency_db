@@ -344,9 +344,20 @@ dbcContainer(
                     htmlBr(),
                     htmlBr(),
                     htmlBr(),
-                    dbcInput(placeholder="Type something...", type="text"),
-                    htmlBr(),
-                    dbcButton("Subscribe Now", color="light", className="mr-1"),
+                    dbcRow(
+                        list(
+                            dbcCol(
+                                list(
+                                    dbcInput(placeholder="Type something...", type="text")
+                                )
+                            ),
+                            dbcCol(
+                                list(
+                                   dbcButton("→", color="light", className="mr-1") 
+                                )
+                            )
+                        )
+                    ),
                     htmlBr(),
                     htmlBr(),
                     htmlBr(),
@@ -359,59 +370,26 @@ dbcContainer(
             ),
             dbcCol(
                 list(
-                    dbcRow(
-                        list(
-                            dbcCol(
-                                list(
-                                    htmlH4("Send"),
-                                    htmlBr()
-                                ), style=list('background' = 'black', 'align' = 'left')
-                            )
-                        ), style=list('background' = 'black', 'align' = 'left')
+                    htmlBr(),
+                    htmlH3("Send"),
+                    dccDropdown(
+                        id="moderncurrency",
+                        options = list(list(label = "US Dollars", value = "ISD"),
+                               list(label = "Canadian Dollars", value = "CAD")),
+                        value = 'CAD'
                     ),
-                    dbcRow(
-                        list(
-                            dbcCol(
-                                list(
-                                    htmlH4("USD")
-                                ), style=list('background' = 'black', 'align' = 'left')
-                            ),
-                            dbcCol(
-                                list(
-                                    htmlH4("USD Value")
-                                ), style=list('background' = 'black', 'align' = 'left')
-                            )
-                        )
+                    dccInput(id="moderncurrency1",type='number', placeholder=0),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlH3("Receive"),
+                    dccDropdown(
+                        id="crypto",
+                        options = list(list(label = "Bitcoin", value = "bitcoin"),
+                               list(label = "Dash", value = "dash")),
+                        value = 'dash'
                     ),
-                    htmlBr(),
-                    htmlBr(),
-                    htmlBr(),
-                    dbcRow(
-                        list(
-                            dbcCol(
-                                list(
-                                    htmlH4("Receive"),
-                                    htmlBr()
-                                ), style=list('background' = 'black', 'align' = 'left')
-                            )
-                        ), style=list('background' = 'black', 'align' = 'left')
-                    ),
-                    dbcRow(
-                        list(
-                            dbcCol(
-                                list(
-                                    htmlH4("Cryptocurrency")
-                                ), style=list('background' = 'black', 'align' = 'left')
-                            ),
-                            dbcCol(
-                                list(
-                                    htmlH4("Crypto Value")
-                                ), style=list('background' = 'black', 'align' = 'left')
-                            )
-                        )
-                    ),
-                    htmlBr(),
-                    htmlBr(),
+                    htmlDiv(id="crypto1"),
                     htmlBr(),
                     dbcButton("Buy now", color="light", className="mr-1")
                 )
@@ -508,6 +486,21 @@ app$callback(
     }
 )
 
+
+
+
+app$callback(
+    output('crypto1', 'children'), #dccGraphID
+    list(input('moderncurrency', 'value'),
+         input('crypto', 'value'),
+         input('moderncurrency1', 'value')), #dccDropdownID
+    function(x=moderncurrency1, from = "moderncurrency", to = "crypto"){
+        values <- c(1.0, 0.84, 0.72, 109.04, 72.53, 1.24, 1.34, 0.000017, 0.0048253, 0.0020147, 0.1984127, 0.0006391, 0.7633588, 00054969, 0.0049655, 1.333333, 0.0267165, 0.0252717, 0.1776199, 0.157779, 2.1276596, 1.0869565, 0.102146 ) #Moderen currency (to currency)
+        names(values) <- c("USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD", "bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", "monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves") #Moderen currency name (to currency name)
+        v1 = value[to]/value[from]/x
+        return((v1))
+}
+)
 
 app$callback(
     list(output('Open','children')),
