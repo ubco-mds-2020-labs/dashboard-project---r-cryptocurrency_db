@@ -370,7 +370,6 @@ dbcContainer(
             ),
             dbcCol(
                 list(
-                    htmlBr(),
                     htmlH3("Send"),
                     dccDropdown(
                         id="moderncurrency",
@@ -389,8 +388,10 @@ dbcContainer(
                                list(label = "Dash", value = "dash")),
                         value = 'dash'
                     ),
+                    htmlH3("QAZ1"),
                     htmlDiv(id="crypto1"),
-                    htmlBr(),
+                    htmlH3("QAZ2"),
+
                     dbcButton("Buy now", color="light", className="mr-1")
                 )
             )
@@ -441,7 +442,7 @@ tabs = htmlDiv(
        )
       ),
     )
-  ),style = list('color' = 'yellow', 'background' = 'black')
+  ),style = list('color' = 'yellow', 'background' = 'pink')
 )
 
 
@@ -490,15 +491,15 @@ app$callback(
 
 
 app$callback(
-    output('crypto1', 'children'), #dccGraphID
+    list(output('crypto1', 'children'), #dccGraphID
     list(input('moderncurrency', 'value'),
          input('crypto', 'value'),
          input('moderncurrency1', 'value')), #dccDropdownID
     function(x=moderncurrency1, from = "moderncurrency", to = "crypto"){
         values <- c(1.0, 0.84, 0.72, 109.04, 72.53, 1.24, 1.34, 0.000017, 0.0048253, 0.0020147, 0.1984127, 0.0006391, 0.7633588, 00054969, 0.0049655, 1.333333, 0.0267165, 0.0252717, 0.1776199, 0.157779, 2.1276596, 1.0869565, 0.102146 ) #Moderen currency (to currency)
         names(values) <- c("USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD", "bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", "monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves") #Moderen currency name (to currency name)
-        v1 = value[to]/value[from]/x
-        return((v1))
+        v1 = values[to]/values[from]/x
+        return(v1)
 }
 )
 
