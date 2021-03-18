@@ -373,24 +373,24 @@ dbcContainer(
                     htmlH3("Send"),
                     dccDropdown(
                         id="moderncurrency",
-                        options = list(list(label = "US Dollars", value = "ISD"),
-                               list(label = "Canadian Dollars", value = "CAD")),
+                        options = list(list(label = "USD", value = "USD"),
+                               list(label = "CAD", value = "CAD")),
                         value = 'CAD'
                     ),
                     dccInput(id="moderncurrency1",type='number', placeholder=0),
+                    #dccInput(id='moderncurrency1'),
+                    #htmlDiv(id='crypto1'),
                     htmlBr(),
                     htmlBr(),
                     htmlBr(),
                     htmlH3("Receive"),
                     dccDropdown(
                         id="crypto",
-                        options = list(list(label = "Bitcoin", value = "bitcoin"),
-                               list(label = "Dash", value = "dash")),
+                        options = list(list(label = "bitcoin", value = "bitcoin"),
+                               list(label = "dash", value = "dash")),
                         value = 'dash'
                     ),
-                    htmlH3("QAZ1"),
-                    htmlDiv(id="crypto1"),
-                    htmlH3("QAZ2"),
+                    htmlDiv(id='crypto1'),
 
                     dbcButton("Buy now", color="light", className="mr-1")
                 )
@@ -491,17 +491,27 @@ app$callback(
 
 
 app$callback(
-    list(output('crypto1', 'children')), #dccGraphID
-    list(input('moderncurrency', 'value'),
-         input('crypto', 'value'),
-         input('moderncurrency1', 'value')), #dccDropdownID
-    function(moderncurrency1, moderncurrency, crypto){
-        values <- c(1.0, 0.84, 0.72, 109.04, 72.53, 1.24, 1.34, 0.000017, 0.0048253, 0.0020147, 0.1984127, 0.0006391, 0.7633588, 00054969, 0.0049655, 1.333333, 0.0267165, 0.0252717, 0.1776199, 0.157779, 2.1276596, 1.0869565, 0.102146 ) #Moderen currency (to currency)
-        names(values) <- c("USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD", "bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", "monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves") #Moderen currency name (to currency name)
-        v1 = (values[crypto]/values[moderncurrency])/moderncurrency1
-        return(v1)
+    output('crypto1', 'children'), #dccGraphID
+    list(input('moderncurrency1', 'value'),
+         input('moderncurrency', 'value')), #dccDropdownID
+#    function(moderncurrency1, moderncurrency, crypto){
+#        values <- c(1.0, 0.84, 0.72, 109.04, 72.53, 1.24, 1.34, 0.000017, 0.0048253, 0.0020147, 0.1984127, 0.0006391, 0.7633588, 00054969, 0.0049655, 1.333333, 0.0267165, 0.0252717, 0.1776199, 0.157779, 2.1276596, 1.0869565, 0.102146 ) #Moderen currency (to currency)
+#        names(values) <- c("USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD", "bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", "monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves") #Moderen currency name (to currency name)
+ #       v1 = (values[crypto]/values[moderncurrency])/moderncurrency1
+ #       return(25)
+        function(input_value, moderncurrency) {
+            x <- input_value*2
+            return(list(x))
+#    })
 }
 )
+
+#app$callback(
+#    list(output('crypto1', 'children')),
+#    list(input('moderncurrency1', 'value')),
+#    function(input_value) {
+#        return(list(input_value))  # Would also work without `return()`
+ #   })
 
 
 app$callback(
