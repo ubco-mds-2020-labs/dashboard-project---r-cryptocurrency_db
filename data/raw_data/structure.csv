@@ -1,18 +1,18 @@
-Name,Latest Volume,Latest Open,Latest Close ,L7D,L30D,Latest Market Cap,Latest Direction
-bitcoin,9926540000,11231.8,11403.7,10598.34714,9789.346,1.90E+11,Increasing
-bitcoin_cash,820947000,1543.27,1418.73,1468.947,1390.37,26199800000,Decreasing
-bitconnect,157912,3.44,3.52,3.911,6.433,36680600,Decreasing
-dash,5754970000,728.99,685.04,703.84,669.83,5754970000,Decreasing
-ethetreum,2545260000,943.57,895.37,934.57,950.55,92206500000,Decreasing
-ethereum_classic,1175890000,39.41,38.23,36.198,28.5,3940010000,Decreasing
-iota,49930400,2.09,1.91,2.06,2.05,5800510000,Decreasing
-litecoin,1739670000,223.09,232.85,224.29,175.916,12335100000,Increasing
-monero,71114700,317,303.79,303.295,274.68,4989710000,Decreasing
-nem,66039700,0.529133,0.484397,0.549,0.68,4762190000,Decreasing
-neo,239238000,137.95,128.36,130.35,125.01,8966490000,Decreasing
-numeraire,1697590,24.47,23.84,22.492,652.57,31586100,Decreasing
-omisego,109202000,17.72,18.4,17.6,14.8,109202000,Increasing
-qtum,203359000,32.72,33.41,32.45,33.25,2417680000,Decreasing
-ripple,806673000,1.14,1.09,1.14,1.08,44648100000,Decreasing
-stratis,21055000,9.91,9.13,9.56,10.63,978923000,Decreasing
-waves,46087500,8.1,8.03,7.7,7.115,810038000,Decreasing
+Name,LatestVolume_inM,LatestOpen,LatestClose ,L7D,L30D,LatestMarketCap_inB,LatestDirection
+bitcoin,9926.5,11231.8,11403.7,10598.3,9789.3,190.0,Increasing
+bitcoin_cash,820.9,1543.3,1418.7,1468.9,1390.4,26.2,Decreasing
+bitconnect,0.2,3.4,3.5,3.9,6.4,0.0,Decreasing
+dash,5755.0,729.0,685.0,703.8,669.8,5.8,Decreasing
+ethetreum,2545.3,943.6,895.4,934.6,950.6,92.2,Decreasing
+ethereum_classic,1175.9,39.4,38.2,36.2,28.5,3.9,Decreasing
+iota,49.9,2.1,1.9,2.1,2.1,5.8,Decreasing
+litecoin,1739.7,223.1,232.9,224.3,175.9,12.3,Increasing
+monero,71.1,317.0,303.8,303.3,274.7,5.0,Decreasing
+nem,66.0,0.5,0.5,0.5,0.7,4.8,Decreasing
+neo,239.2,138.0,128.4,130.4,125.0,9.0,Decreasing
+numeraire,1.7,24.5,23.8,22.5,652.6,0.0,Decreasing
+omisego,109.2,17.7,18.4,17.6,14.8,0.1,Increasing
+qtum,203.4,32.7,33.4,32.5,33.3,2.4,Decreasing
+ripple,806.7,1.1,1.1,1.1,1.1,44.6,Decreasing
+stratis,21.1,9.9,9.1,9.6,10.6,1.0,Decreasing
+waves,46.1,8.1,8.0,7.7,7.1,0.8,Decreasing
