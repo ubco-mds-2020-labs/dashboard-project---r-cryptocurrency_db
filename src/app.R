@@ -22,9 +22,11 @@ structure_rest <- structure[structure$Name != 'bitcoin',]
 #Creating variables are needed
 structure_rest_name <- structure_rest$Name
 
-app$layout(
+
+# Individual tab content
+tab1_content = 
     dbcContainer(
-        list(    
+        list(
         # Row about all Open USD, Close USD etc
         dbcRow(
             list(
@@ -169,31 +171,31 @@ app$layout(
                 ),
                 dbcCol(
                     list(
-                        htmlH6(structure_bitcoin$LatestClose)
+                        htmlH6(id='Close')
                     )
                 ),
                 dbcCol(
                     list(
-                        htmlH6(structure_bitcoin$L7D)
+                        htmlH6(id="L7D")
                     )
                 ),
                 dbcCol(
                     list(
-                        htmlH6(structure_bitcoin$L30D)
+                        htmlH6(id="L30D")
                     )
                 ),
                 dbcCol(
                     list(
-                        htmlH6(structure_bitcoin$LatestMarketCap_inB)
+                        htmlH6(id="MarketCap")
                     )
                 ),
                 dbcCol(
                     list(
-                        htmlH6(structure_bitcoin$LatestVolume_inM)
+                        htmlH6(id="Volume")
                     )
                 )
 
-            ), style = list('text-align' = 'center', 'color' = 'green', 'background' = 'black')
+            ), style = list('text-align' = 'center', 'color' = 'pink', 'background' = 'black')
         ),
         dbcRow(
             list(
@@ -217,7 +219,7 @@ app$layout(
             list(
                 dbcCol(
                     list(
-                        htmlH4("Time series graph")
+                        htmlH2("Volume graph")
                     )
                 )
             ), style = list('text-align' = 'center', 'color' = 'purple', 'background' = 'black')
@@ -226,43 +228,347 @@ app$layout(
             list(
                 dbcCol(
                     list(
-                        dccGraph(id='time-series1')
+                        dccGraph(id='vol1')
+                    ), style = list('background' = 'black')
+                )
+            )
+        ),
+        dbcRow(
+            list(
+                dbcCol(
+                    list(
+                        #dccGraph(id='time-series1')
                     ), style = list('background' = 'black')
                 )
             )
         )
+
         
 )
 )
+
+
+
+
+
+
+tab2_content = 
+    dbcContainer(
+        list(
+        dbcRow(
+            list(
+                dbcCol(
+                    list(
+                        dccDropdown(id='OHLC',
+                            options = list(list(label = "Open : Opening price on the given day", value = "Open"),
+                                           list(label = "High : Highest price on the given day", value = "High"),
+                                           list(label = "Low : Lowest price on the given day", value = "Low"),
+                                           list(label = "Close : Closing price on the given day", value = "Close")),
+                            value = 'Close'
+                        )
+                    )
+                )
+            ), style = list('text-align' = 'center', 'color' = 'purple', 'background' = 'black')
+        ),
+        dbcRow(
+            list(
+                dbcCol(
+                    list(
+                        dccGraph(id='group1')
+                    ), style = list('background' = 'black')
+                )
+            )
+        )
+
+        
+)
 )
 
+tab3_content = 
+dbcContainer(
+    list(
+    dbcRow(
+        list(
+            dbcCol(
+                list(
+                    htmlBr()
+                )
+            )
+        ), style = list('background' = 'black')
+    ),
+    dbcRow(
+        list(
+            dbcCol(
+                list(
+                    htmlBr()
+                )
+            )
+        ), style = list('background' = 'black')
+    ),
+    dbcRow(
+        list(
+            dbcCol(
+                list(
+                    htmlBr()
+                )
+            )
+        ), style = list('background' = 'black')
+    ),
+    dbcRow(
+        list(
+            dbcCol(
+                list(
+                    htmlBr()
+                )
+            )
+        ), style = list('background' = 'black')
+    ),
+    dbcRow(
+        list(
+            dbcCol(
+                list(
+                    htmlBr()
+                )
+            )
+        ), style = list('background' = 'black')
+    ),
+    dbcRow(
+        list(
+            dbcCol(
+                list(
+                    htmlH1("Buy and Sell cryptocurrency"),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlH4("Fast and secure way to purchase or exchange cryptocurrencies"),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    dbcInput(placeholder="Type something...", type="text"),
+                    htmlBr(),
+                    dbcButton("Subscribe Now", color="light", className="mr-1"),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr()
+                )
+            ),
+            dbcCol(
+                list(
+                    dbcRow(
+                        list(
+                            dbcCol(
+                                list(
+                                    htmlH4("Send"),
+                                    htmlBr()
+                                ), style=list('background' = 'black', 'align' = 'left')
+                            )
+                        ), style=list('background' = 'black', 'align' = 'left')
+                    ),
+                    dbcRow(
+                        list(
+                            dbcCol(
+                                list(
+                                    htmlH4("USD")
+                                ), style=list('background' = 'black', 'align' = 'left')
+                            ),
+                            dbcCol(
+                                list(
+                                    htmlH4("USD Value")
+                                ), style=list('background' = 'black', 'align' = 'left')
+                            )
+                        )
+                    ),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    dbcRow(
+                        list(
+                            dbcCol(
+                                list(
+                                    htmlH4("Receive"),
+                                    htmlBr()
+                                ), style=list('background' = 'black', 'align' = 'left')
+                            )
+                        ), style=list('background' = 'black', 'align' = 'left')
+                    ),
+                    dbcRow(
+                        list(
+                            dbcCol(
+                                list(
+                                    htmlH4("Cryptocurrency")
+                                ), style=list('background' = 'black', 'align' = 'left')
+                            ),
+                            dbcCol(
+                                list(
+                                    htmlH4("Crypto Value")
+                                ), style=list('background' = 'black', 'align' = 'left')
+                            )
+                        )
+                    ),
+                    htmlBr(),
+                    htmlBr(),
+                    htmlBr(),
+                    dbcButton("Buy now", color="light", className="mr-1")
+                )
+            )
+        )
+    )
+)
+)
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+# all tabs content
+tabs = htmlDiv(
+  list(
+    htmlH2("Cryptocurrency Reporting Dashboard"),
+    dbcTabs(
+      list(
+        dbcTab(children=list(
+          htmlBr(),
+          tab1_content
+        ), 
+        label="Overview"
+       ),
+       dbcTab(children=list(
+          htmlBr(),
+          tab2_content
+        ), 
+        label="DeepDive"
+       ),
+       dbcTab(children=list(
+          htmlBr(),
+          tab3_content
+        ), 
+        label="Buy & Sell"
+       )
+      ),
+    )
+  ),style = list('color' = 'yellow', 'background' = 'black')
+)
+
+
+# final layout
+app$layout(
+  dbcContainer(
+    list(
+      htmlBr(),
+      tabs
+    )
+  )
+)
 
 
 # Call back
 
 app$callback(
-    output('time-series1', 'figure'), #dccGraphID
+    output('vol1', 'figure'), #dccGraphID
     list(input('currencylist', 'value')), #dccDropdownID
     function(xcol) {
         price_x <- subset(price, Name == 'bitcoin' | Name == xcol)
-        p <- ggplot(price_x) +
+        p1 <- ggplot(price) +
             aes(x = New_date1,
-                y = Open,
+                y = Volume/1000000,
                 color = Name,
                 fill = Name) +
-            geom_line()
-        return(ggplotly(p))
+                geom_smooth() 
+        px1 <- p1 + theme(axis.title.x = element_blank())
+        
+        return(ggplotly(px1))
     }
 )
+
+app$callback(
+    output('group1', 'figure'), #dccGraphID
+    list(input('OHLC', 'value')), #dccDropdownID
+    function(xcol) {
+        p2 <- ggplot(price, aes(x = New_date1, y = Close, col = Name)) + geom_line()
+        px2 <- p2 + facet_wrap(~Name, scales = "free", ncol = 3) + theme_minimal() + theme(legend.position="none") + ylab("Price (USD)")
+        px2 <- px2 
+        return(ggplotly(px2) %>% layout(legend = list(orientation = 'h', y= -0.3)))
+    }
+)
+
 
 app$callback(
     list(output('Open','children')),
     list(input('currencylist','value')),
     function(xcol) {
-        structure_rest_z <- subset(structure_rest, Name == xcol)
-        z <- structure_rest_z$LatestOpen
-        z
+        structure_rest_z1 <- subset(structure_rest, Name == xcol)
+        z1 <- structure_rest_z1$LatestOpen
+        return(list(z1))
     }
 )
+
+app$callback(
+    list(output('Close','children')),
+    list(input('currencylist','value')),
+    function(xcol) {
+        structure_rest_z2 <- subset(structure_rest, Name == xcol)
+        z2 <- structure_rest_z2$LatestClose
+        return(list(z2))
+    }
+)
+
+app$callback(
+    list(output('L7D','children')),
+    list(input('currencylist','value')),
+    function(xcol) {
+        structure_rest_z3 <- subset(structure_rest, Name == xcol)
+        z3 <- structure_rest_z3$L7D
+        return(list(z3))
+    }
+)
+
+app$callback(
+    list(output('L30D','children')),
+    list(input('currencylist','value')),
+    function(xcol) {
+        structure_rest_z4 <- subset(structure_rest, Name == xcol)
+        z4 <- structure_rest_z4$L30D
+        return(list(z4))
+    }
+)
+
+app$callback(
+    list(output('MarketCap','children')),
+    list(input('currencylist','value')),
+    function(xcol) {
+        structure_rest_z5 <- subset(structure_rest, Name == xcol)
+        z5 <- structure_rest_z5$LatestMarketCap_inB
+        return(list(z5))
+    }
+)
+
+app$callback(
+    list(output('Volume','children')),
+    list(input('currencylist','value')),
+    function(xcol) {
+        structure_rest_z6 <- subset(structure_rest, Name == xcol)
+        z6 <- structure_rest_z6$LatestVolume_inM
+        return(list(z6))
+    }
+)
+
+
 
 app$run_server(debug = T)

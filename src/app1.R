@@ -1,40 +1,23 @@
 library(dash)
 library(dashCoreComponents)
 library(dashHtmlComponents)
-library(dashBootstrapComponents)
-library(ggplot2)
-library(plotly)
 
-app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
+app <- Dash$new(external_stylesheets = "https://codepen.io/chriddyp/pen/bWLwgP.css")
 
 app$layout(
-    dbcContainer(
+    htmlDiv(
         list(
-            dccGraph(id='plot-area'),
-            dccDropdown(
-                id='col-select',
-                options = msleep %>%
-                    colnames %>%
-                    purrr::map(function(col) list(label = col, value = col)), 
-                value='bodywt')
+            dccInput(id='widget-1'),
+            htmlDiv(id='widget-2')
         )
     )
 )
 
 app$callback(
-    output('plot-area', 'figure'),
-    list(input('col-select', 'value')),
-    function(xcol) {
-        p <- ggplot(msleep) +
-            aes(x = awake,
-                y = sleep_total,
-                color = vore,
-                text = name) +
-            geom_point() +
-            scale_x_log10() +
-            ggthemes::scale_color_tableau()
-        ggplotly(p)
-    }
-)
+    list(output('widget-2', 'children')),
+    list(input('widget-1', 'value')),
+    function(input_value) {
+        return(list(input_value))  # Would also work without `return()`
+    })
 
 app$run_server(debug = T)
