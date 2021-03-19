@@ -12,5 +12,3 @@ We will also include a exchange rate table with 5 popular currency (CAD, INR, YE
 
 
 Click to view the [wireframe](Cyrpto_template.png)
-
-[applink](https://cryptocurrency1app.herokuapp.com/)
