@@ -17,7 +17,7 @@ setwd("/Volumes/UBC/Block5/551/Project_MDS/dashboard-project---r-cryptocurrency_
 structure <- read_csv("data/raw_data/structure.csv")
 price <- read_csv("data/processed_data/price.csv")
 #data3 <- read_csv("data/processed_data/data3.csv")
-price_OHLC <- select(price, Open,High,Low,Close,Name,New_date1)
+price_OHLC <- select(price, Open,High,Low,Close,Name,New_date1,RollingAvg7_Close)
 price_rest <- subset(price, Name != 'bitcoin' & Name != 'bitcoin_cash')
 
 
@@ -620,13 +620,13 @@ tabs = htmlDiv(
           htmlBr(),
           tab2_content
         ), 
-        label="DeepDive"
+        label="DeepDive-1"
        ),
        dbcTab(children=list(
           htmlBr(),
           tab3_content
         ), 
-        label="Summary"
+        label="DeepDive-2"
        ),
        dbcTab(children=list(
           htmlBr(),
@@ -691,13 +691,9 @@ app$callback(
     output('hist1', 'figure'), #dccGraphID
     list(input('OHLC', 'value')), #dccDropdownID
     function(ycol) {
-        p5 <- ggplot(price) +
-            aes(x = New_date1,
-                y = Volume/1000000,
-                color = Name,
-                fill = Name) +
-                geom_smooth() + ylab("Volume in millions")
-        px5 <- p5 + theme(axis.title.x = element_blank())
+        options(repr.plot.width = 10, repr.plot.height = 300)
+        p5 <- ggplot(price_rest, aes(New_date1, RollingAvg7_Close, color=Name)) + geom_line()
+        px5 <- p5 + theme(axis.title.x = element_blank()) + ylab("Rolling Avg of 7 Days")
         return(ggplotly(px5))
     }
 )
@@ -708,7 +704,7 @@ app$callback(
     function(ycol) {
         options(repr.plot.width = 10, repr.plot.height = 300)
         p3 <- ggplot(price_rest, aes(Name, RollingAvg7_Close, color=Name)) + geom_point() + geom_boxplot() + ggthemes::scale_fill_tableau()
-        px3 <- p3 + theme_minimal() + theme(legend.position="none") + ylab("Price (USD)")
+        px3 <- p3 + theme_minimal() + theme(legend.position="none") + ylab("Rolling Avg of 7 Days")
         return(ggplotly(px3))
     }
 )
