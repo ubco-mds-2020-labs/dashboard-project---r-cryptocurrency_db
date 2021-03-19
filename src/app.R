@@ -6,6 +6,7 @@ library(tidyverse)
 library(readr)
 library(ggplot2)
 library(plotly)
+library(dplyr)
 plotly::ggplotly
 
 app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
@@ -13,6 +14,7 @@ app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 #Read data
 structure <- read_csv("/Volumes/UBC/Block5/551/Project_MDS/dashboard-project---r-cryptocurrency_db/data/raw_data/structure.csv")
 price <- read_csv("/Volumes/UBC/Block5/551/Project_MDS/dashboard-project---r-cryptocurrency_db/data/processed_data/price.csv")
+price_OHLC <- select(price, Open,High,Low,Close,Name,New_date1)
 
 
 #Manipulate data on the go
@@ -160,7 +162,7 @@ tab1_content =
                         dccDropdown(
                             id='currencylist',
                             options = structure_rest$Name %>% purrr::map(function(col) list(label = col, value = col)),
-                            value='neo')
+                            value='ethereum')
                            
                         )
                 ),
@@ -274,13 +276,12 @@ tab2_content =
             list(
                 dbcCol(
                     list(
-                        dccGraph(id='group1')
+                        dccGraph(id='group1',
+                        style=list("height"=800))
                     ), style = list('background' = 'black')
                 )
             )
-        )
-
-        
+        )       
 )
 )
 
@@ -463,7 +464,7 @@ app$callback(
     output('vol1', 'figure'), #dccGraphID
     list(input('currencylist', 'value')), #dccDropdownID
     function(xcol) {
-        price_x <- subset(price, Name == 'bitcoin' | Name == xcol)
+        price_x <- subset(price, Name == 'bitcoin' | Name == xcol) # Should we change the below graph to adjust the source?
         p1 <- ggplot(price) +
             aes(x = New_date1,
                 y = Volume/1000000,
@@ -479,11 +480,11 @@ app$callback(
 app$callback(
     output('group1', 'figure'), #dccGraphID
     list(input('OHLC', 'value')), #dccDropdownID
-    function(xcol) {
-        p2 <- ggplot(price, aes(x = New_date1, y = Close, col = Name)) + geom_line()
+    function(ycol) {
+        options(repr.plot.width = 10, repr.plot.height = 300)
+        p2 <- ggplot(price_OHLC, aes(x = New_date1, y = !!sym(ycol), col = Name)) + geom_line()
         px2 <- p2 + facet_wrap(~Name, scales = "free", ncol = 3) + theme_minimal() + theme(legend.position="none") + ylab("Price (USD)")
-        px2 <- px2 
-        return(ggplotly(px2) %>% layout(legend = list(orientation = 'h', y= -0.3)))
+        return(ggplotly(px2))
     }
 )
 
