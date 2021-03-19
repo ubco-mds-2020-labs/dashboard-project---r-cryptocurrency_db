@@ -12,7 +12,7 @@ plotly::ggplotly
 
 app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 
-setwd("/Volumes/UBC/Block5/551/Project_MDS/dashboard-project---r-cryptocurrency_db/")
+setwd("/Users/user/Desktop/dashboard-project---r-cryptocurrency_db/")
 #Read data
 structure <- read_csv("data/raw_data/structure.csv")
 price <- read_csv("data/processed_data/price.csv")
