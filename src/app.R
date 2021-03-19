@@ -15,6 +15,7 @@ app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 structure <- read_csv("/Volumes/UBC/Block5/551/Project_MDS/dashboard-project---r-cryptocurrency_db/data/raw_data/structure.csv")
 price <- read_csv("/Volumes/UBC/Block5/551/Project_MDS/dashboard-project---r-cryptocurrency_db/data/processed_data/price.csv")
 price_OHLC <- select(price, Open,High,Low,Close,Name,New_date1)
+price_rest <- subset(price, Name != 'bitcoin' & Name != 'bitcoin_cash')
 
 
 #Manipulate data on the go
@@ -285,6 +286,7 @@ tab2_content =
 )
 )
 
+
 tab3_content = 
 dbcContainer(
     list(
@@ -343,6 +345,7 @@ dbcContainer(
                     htmlBr(),
                     htmlH4("Fast and secure way to purchase or exchange cryptocurrencies"),
                     htmlBr(),
+                    htmlH6("Share your email address to subscribe to our weekly updates and investment tips"),
                     htmlBr(),
                     htmlBr(),
                     dbcRow(
@@ -374,23 +377,47 @@ dbcContainer(
                     htmlH3("Send"),
                     dccDropdown(
                         id="moderncurrency",
-                        options = list(list(label = "USD", value = "USD"),
-                               list(label = "CAD", value = "CAD")),
+                        #"USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD"
+                        options = list(list(label = "US Dollar", value = "USD"),
+                               list(label = "Canadian Dollar", value = "CAD"),
+                               list(label = "Euro", value = "EUR"),
+                               list(label = "Pound Sterling", value = "GBP"),
+                               list(label = "Singapore Dollar", value = "SGD"),
+                               list(label = "Japanese Yen", value = "YEN"),
+                               list(label = "Indian Rupees", value = "INR")),
                         value = 'CAD'
                     ),
+                    htmlBr(),
                     dccInput(id="moderncurrency1",type='number', placeholder=0),
-                    #dccInput(id='moderncurrency1'),
-                    #htmlDiv(id='crypto1'),
+
                     htmlBr(),
                     htmlBr(),
                     htmlBr(),
                     htmlH3("Receive"),
+                    #"bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", 
+                    #"monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves"
                     dccDropdown(
                         id="crypto",
                         options = list(list(label = "bitcoin", value = "bitcoin"),
-                               list(label = "dash", value = "dash")),
+                               list(label = "dash", value = "dash"),
+                               list(label = "bitcoin_cash", value = "bitcoin_cash"),
+                               list(label = "bitconnect", value = "bitconnect"),
+                               list(label = "ethereum", value = "ethereum"),
+                               list(label = "ethereum_classic", value = "ethereum_classic"),
+                               list(label = "iota", value = "iota"),
+                               list(label = "litecoin", value = "litecoin"),
+                               list(label = "monero", value = "monero"),
+                               list(label = "nem", value = "nem"),
+                               list(label = "neo", value = "neo"),
+                               list(label = "numeraire", value = "numeraire"),
+                               list(label = "omisego", value = "omisego"),
+                               list(label = "qtum", value = "qtum"),
+                               list(label = "ripple", value = "ripple"),
+                               list(label = "stratis", value = "stratis"),
+                               list(label = "waves", value = "waves")),
                         value = 'dash'
                     ),
+                    htmlBr(),
                     htmlDiv(id='crypto1'),
 
                     dbcButton("Buy now", color="light", className="mr-1")
@@ -402,7 +429,21 @@ dbcContainer(
 )
 
 
-
+tab4_content = 
+    dbcContainer(
+        list(
+        dbcRow(
+            list(
+                dbcCol(
+                    list(
+                        dccGraph(id="quartile1",
+                        style=list("height"=400))
+                    )
+                )
+            )
+        )
+        )
+    )
 
 
 
@@ -440,10 +481,16 @@ tabs = htmlDiv(
           tab3_content
         ), 
         label="Buy & Sell"
+       ),
+       dbcTab(children=list(
+          htmlBr(),
+          tab4_content
+        ), 
+        label="Sample"
        )
-      ),
+      )
     )
-  ),style = list('color' = 'yellow', 'background' = 'pink')
+  ),style = list('color' = 'yellow', 'background' = 'black')
 )
 
 
@@ -488,31 +535,32 @@ app$callback(
     }
 )
 
+app$callback(
+    output('quartile1', 'figure'), #dccGraphID
+    list(input('OHLC', 'value')), #dccDropdownID
+    function(ycol) {
+        options(repr.plot.width = 10, repr.plot.height = 300)
+        p3 <- ggplot(price_rest, aes(Name, RollingAvg7_Close, color=Name)) + geom_point() + geom_boxplot()
+        px3 <- p3 + theme_minimal() + theme(legend.position="none") + ylab("Price (USD)")
+        return(ggplotly(px3))
+    }
+)
+
 
 
 
 app$callback(
     output('crypto1', 'children'), #dccGraphID
     list(input('moderncurrency1', 'value'),
-         input('moderncurrency', 'value')), #dccDropdownID
-#    function(moderncurrency1, moderncurrency, crypto){
-#        values <- c(1.0, 0.84, 0.72, 109.04, 72.53, 1.24, 1.34, 0.000017, 0.0048253, 0.0020147, 0.1984127, 0.0006391, 0.7633588, 00054969, 0.0049655, 1.333333, 0.0267165, 0.0252717, 0.1776199, 0.157779, 2.1276596, 1.0869565, 0.102146 ) #Moderen currency (to currency)
-#        names(values) <- c("USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD", "bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", "monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves") #Moderen currency name (to currency name)
- #       v1 = (values[crypto]/values[moderncurrency])/moderncurrency1
- #       return(25)
-        function(input_value, moderncurrency) {
-            x <- input_value*2
-            return(list(x))
-#    })
+         input('moderncurrency', 'value'),
+         input('crypto', 'value')), #dccDropdownID
+    function(moderncurrency1, moderncurrency, crypto){
+        values <- c(1.0, 0.84, 0.72, 109.04, 72.53, 1.24, 1.34, 0.000017, 0.0048253, 0.0020147, 0.1984127, 0.0006391, 0.7633588, 00054969, 0.0049655, 1.333333, 0.0267165, 0.0252717, 0.1776199, 0.157779, 2.1276596, 1.0869565, 0.102146 ) #Moderen currency (to currency)
+        names(values) <- c("USD", "EUR", "GBP", "YEN", "INR", "CAD", "SGD", "bitcoin", "dash", "bitcoin_cash", "bitconnect", "ethereum", "iota", "litecoin", "monero", "nem", "neo", "numeraire", "omisego", "qtum", "ripple", "stratis", "waves") #Moderen currency name (to currency name)
+        v1 = round((values[crypto]/values[moderncurrency])/moderncurrency1,5)
+        return(v1)
 }
 )
-
-#app$callback(
-#    list(output('crypto1', 'children')),
-#    list(input('moderncurrency1', 'value')),
-#    function(input_value) {
-#        return(list(input_value))  # Would also work without `return()`
- #   })
 
 
 app$callback(
