@@ -2,21 +2,17 @@ library(dash)
 library(dashCoreComponents)
 library(dashHtmlComponents)
 library(dashBootstrapComponents)
-library(tidyverse)
 library(readr)
 library(ggplot2)
 library(plotly)
 library(dplyr)
-library(GGally)
 plotly::ggplotly
 
 app <- Dash$new(external_stylesheets = dbcThemes$BOOTSTRAP)
 
-setwd("/Users/user/Desktop/dashboard-project---r-cryptocurrency_db/")
 #Read data
 structure <- read_csv("data/raw_data/structure.csv")
 price <- read_csv("data/processed_data/price.csv")
-#data3 <- read_csv("data/processed_data/data3.csv")
 price_OHLC <- select(price, Open,High,Low,Close,Name,New_date1,RollingAvg7_Close)
 price_rest <- subset(price, Name != 'bitcoin' & Name != 'bitcoin_cash')
 
