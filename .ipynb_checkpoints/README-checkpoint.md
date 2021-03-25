@@ -29,4 +29,3 @@ To remove this unwanted noise and gain a real grasp of data, we used a rolling 
 Rolling averages help us focus on the long-term impact of prices/volumes without losing sight of the short-term changes
 
 
-Click to view the [wireframe](Cyrpto_template.png)
